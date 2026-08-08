@@ -80,63 +80,63 @@ function Prediction() {
   const set = (key: FieldKey, v: string) => setValues((p) => ({ ...p, [key]: v }));
 
   // Dummy logic — a FastAPI backend will replace this later.
-const predict = async () => {
-  setLoading(true);
-  setResult(null);
+  const predict = async () => {
+    setLoading(true);
+    setResult(null);
 
-  try {
-    const response = await fetch("https://water-quality-ai-hj6y.onrender.com/predict", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        ph: Number(values.ph),
-        Hardness: Number(values.hardness),
-        Solids: Number(values.solids),
-        Chloramines: Number(values.chloramines),
-        Sulfate: Number(values.sulfate),
-        Conductivity: Number(values.conductivity),
-        Organic_carbon: Number(values.organicCarbon),
-        Trihalomethanes: Number(values.trihalomethanes),
-        Turbidity: Number(values.turbidity),
-      }),
-    });
+    try {
+      const response = await fetch("https://water-quality-ai-hj6y.onrender.com/predict", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ph: Number(values.ph),
+          Hardness: Number(values.hardness),
+          Solids: Number(values.solids),
+          Chloramines: Number(values.chloramines),
+          Sulfate: Number(values.sulfate),
+          Conductivity: Number(values.conductivity),
+          Organic_carbon: Number(values.organicCarbon),
+          Trihalomethanes: Number(values.trihalomethanes),
+          Turbidity: Number(values.turbidity),
+        }),
+      });
 
-    const data = await response.json();
+      const data = await response.json();
 
-    const safe = data.prediction === "Drinkable";
+      const safe = data.prediction === "Drinkable";
 
-    setResult({
-      safe,
-      confidence: 100,
-      phStatus:
-        Number(values.ph) >= 6.5 && Number(values.ph) <= 8.5
-          ? "Within WHO range"
-          : "Outside WHO range",
+      setResult({
+        safe,
+        confidence: 100,
+        phStatus:
+          Number(values.ph) >= 6.5 && Number(values.ph) <= 8.5
+            ? "Within WHO range"
+            : "Outside WHO range",
 
-      turbidityStatus:
-        Number(values.turbidity) <= 5
-          ? "Acceptable"
-          : "High",
+        turbidityStatus:
+          Number(values.turbidity) <= 5
+            ? "Acceptable"
+            : "High",
 
-      whoRecommendation:
-        safe
-          ? "Suitable for drinking."
-          : "Water treatment is recommended before drinking.",
+        whoRecommendation:
+          safe
+            ? "Suitable for drinking."
+            : "Water treatment is recommended before drinking.",
 
-      overall:
-        safe
-          ? "Good"
-          : "Poor",
-    });
-  } catch (error) {
-    alert("Backend connection failed.");
-    console.error(error);
-  }
+        overall:
+          safe
+            ? "Good"
+            : "Poor",
+      });
+    } catch (error) {
+      alert("Backend connection failed.");
+      console.error(error);
+    }
 
-  setLoading(false);
-};
+    setLoading(false);
+  };
 
   return (
     <>
@@ -217,22 +217,20 @@ const predict = async () => {
 
           <div className="space-y-6 lg:sticky lg:top-24 lg:self-start">
             <div
-              className={`rounded-[2rem] border p-8 text-center shadow-card transition-all duration-500 ${
-                result
+              className={`rounded-[2rem] border p-8 text-center shadow-card transition-all duration-500 ${result
                   ? result.safe
                     ? "border-success/30 bg-success/10"
                     : "border-destructive/30 bg-destructive/10"
                   : "border-border bg-card"
-              }`}
+                }`}
             >
               <span
-                className={`mx-auto grid h-16 w-16 place-items-center rounded-3xl text-primary-foreground ${
-                  result
+                className={`mx-auto grid h-16 w-16 place-items-center rounded-3xl text-primary-foreground ${result
                     ? result.safe
                       ? "bg-success"
                       : "bg-destructive"
                     : "gradient-primary animate-float"
-                }`}
+                  }`}
               >
                 {result ? (
                   result.safe ? (
@@ -245,9 +243,8 @@ const predict = async () => {
                 )}
               </span>
               <h2
-                className={`mt-5 text-2xl font-extrabold ${
-                  result ? (result.safe ? "text-success" : "text-destructive") : ""
-                }`}
+                className={`mt-5 text-2xl font-extrabold ${result ? (result.safe ? "text-success" : "text-destructive") : ""
+                  }`}
               >
                 {result
                   ? result.safe
@@ -288,8 +285,7 @@ const predict = async () => {
                 ))}
               </dl>
               <p className="mt-5 text-xs leading-relaxed text-muted-foreground">
-                Results are generated with sample logic for demonstration. The trained model
-                API will be connected later.
+                Predictions are generated using a trained machine learning model based on physicochemical water-quality parameters from a publicly available Kaggle dataset.
               </p>
             </div>
           </div>

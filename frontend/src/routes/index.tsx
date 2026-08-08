@@ -13,7 +13,7 @@ export const Route = createFileRoute("/")({
         content:
           "Predict whether water is safe for drinking using internationally recognized water quality parameters.",
       },
-      { property: "og:title", content: "Water Quality AI — AI-Powered Water Prediction" },
+      { property: "og:title", content: "Water Quality AI — AI-Powered Water Quality Prediction" },
       {
         property: "og:description",
         content:
